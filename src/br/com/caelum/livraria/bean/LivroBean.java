@@ -74,7 +74,7 @@ public class LivroBean implements Serializable {
 		String valor = value.toString();
 		
 		if(!valor.startsWith("1")) {
-			throw new ValidatorException(new FacesMessage("Deveria começar com 1"));
+			throw new ValidatorException(new FacesMessage("O campo ISBN deveria começar com caracter 1"));
 		}
 	}
 }
