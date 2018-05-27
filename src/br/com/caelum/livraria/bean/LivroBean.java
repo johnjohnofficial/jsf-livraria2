@@ -77,4 +77,8 @@ public class LivroBean implements Serializable {
 			throw new ValidatorException(new FacesMessage("O campo ISBN deveria começar com caracter 1"));
 		}
 	}
+	
+	public String formAutor() {
+		return "autor?faces-redirect=true";
+	}
 }
