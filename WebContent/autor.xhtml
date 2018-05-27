@@ -2,24 +2,38 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-	<h:body>
-		<h1>Novo Autor</h1>
+<ui:composition template="_template.xhtml">
+	<ui:define name="titulo">
+		Novo Autor
+	</ui:define>
+	<ui:define name="conteudo">
 		<h:form>
 			<fieldset>
 				<legend>Dados do Autor</legend>
 				<h:panelGrid columns="3">
 					<h:outputLabel value="Nome:" for="nome" />
-					<h:inputText id="nome" value="#{autorBean.autor.nome}" required="true"
+					<h:inputText id="nome" value="#{autorBean.autor.nome}"
+						required="true"
 						validatorMessage="O campo nome requer um número minímo de 5 caracters">
 						<f:validateLength minimum="5" />
 					</h:inputText>
 					<h:message for="nome" />
 					<h:commandButton value="Gravar" action="#{autorBean.gravar}" />
 				</h:panelGrid>
+				<h:commandLink value="Ir para o Livro"
+					action="livro?faces-redirect=true" immediate="true" />
 			</fieldset>
 		</h:form>
-	</h:body>
-
+		<h:dataTable value="#{autorBean.autores}" var="autor">
+			<f:facet name="header">Nome</f:facet>
+			<h:column>
+				<h:outputText value="#{autor.nome}" />
+			</h:column>
+		</h:dataTable>
+	</ui:define>
+	<ui:define name="rodape">Autor.xhtml</ui:define>
+</ui:composition>
 </html>

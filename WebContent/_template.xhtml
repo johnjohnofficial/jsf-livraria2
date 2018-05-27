@@ -1,0 +1,53 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<style type="text/css">
+		html, body {
+			height: 100%;
+		}
+		
+		#tudo {
+			min-height: 100%;
+			position: relative;	
+		}
+		
+		* html #tudo {
+			height: 100%;
+		}
+		
+		#rodape {
+			background-color: #CCC;
+			width: 100%;
+			position: absolute;
+			bottom: 0;
+		}
+		
+	</style>
+</h:head>
+<h:body>
+	<!-- div#tudo -->
+	<div id="tudo">
+		<!-- div#cabecalho -->
+		<div id="cabecalho">
+			<h:graphicImage library="img" name="logo.png" />
+			<h1>
+				<ui:insert name="titulo"></ui:insert>
+			</h1>
+		</div>
+		
+		<!-- div#conteudo -->
+		<div id="conteudo">
+			<ui:insert name="conteudo"></ui:insert>
+		</div>
+		
+		<!-- div#rodape -->
+		<div id="rodape">
+			Copyright 2012 - Página:
+			<ui:insert name="rodape"></ui:insert>
+		</div>
+	</div>
+</h:body>
+</html>
