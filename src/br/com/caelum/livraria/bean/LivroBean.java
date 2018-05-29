@@ -43,10 +43,29 @@ public class LivroBean implements Serializable {
 			
 			return;
 		}
-
-		new DAO<Livro>(Livro.class).adiciona(this.livro);
 		
+		if (this.livro.getId() == null) {
+			new DAO<Livro>(Livro.class).adiciona(this.livro);
+		} else {
+			new DAO<Livro>(Livro.class).atualiza(this.livro);
+		}
+
 		this.livro = new Livro();
+	}
+	
+	public void remover(Livro livro) {
+		System.out.println("Removendo o livro: " + livro.getTitulo());
+		new DAO<Livro>(Livro.class).remove(livro);
+	}
+	
+	public void carregar(Livro livro) {
+		System.out.println("Carregando o livro: " + livro.getTitulo());
+		this.livro = livro;
+	}
+	
+	public void removerAutorDoLivro(Autor autor) {
+		System.out.println("Retirando o Autor do livro: " + autor.getNome());
+		this.livro.removerAutor(autor);
 	}
 	
 	public void gravarAutor() {
@@ -73,9 +92,9 @@ public class LivroBean implements Serializable {
 	public void comecaComDigitoUm(FacesContext fc, UIComponent component, Object value) throws ValidatorException {
 		String valor = value.toString();
 		
-		if(!valor.startsWith("1")) {
-			throw new ValidatorException(new FacesMessage("O campo ISBN deveria começar com caracter 1"));
-		}
+//		if(!valor.startsWith("1")) {
+//			throw new ValidatorException(new FacesMessage("O campo ISBN deveria começar com caracter 1"));
+//		}
 	}
 	
 	public String formAutor() {

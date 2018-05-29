@@ -27,12 +27,26 @@
 					action="livro?faces-redirect=true" immediate="true" />
 			</fieldset>
 		</h:form>
-		<h:dataTable value="#{autorBean.autores}" var="autor">
-			<f:facet name="header">Nome</f:facet>
-			<h:column>
-				<h:outputText value="#{autor.nome}" />
-			</h:column>
-		</h:dataTable>
+		<h:form>
+			<h:dataTable value="#{autorBean.autores}" var="autor">
+				<h:column>
+					<f:facet name="header">Id</f:facet>
+					<h:outputText value="#{autor.id}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Nome</f:facet>
+					<h:outputText value="#{autor.nome}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Alterar</f:facet>
+					<h:commandLink value="altera" action="#{autorBean.carregar(autor)}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Remover</f:facet>
+					<h:commandLink value="remove" action="#{autorBean.remover(autor)}" />
+				</h:column>
+			</h:dataTable>
+		</h:form>
 	</ui:define>
 	<ui:define name="rodape">Autor.xhtml</ui:define>
 </ui:composition>
