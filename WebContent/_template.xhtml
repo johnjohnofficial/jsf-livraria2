@@ -33,8 +33,12 @@
 		<!-- div#cabecalho -->
 		<div id="cabecalho">
 			<h:graphicImage library="img" name="logo.png" />
-			<h1>
-				<ui:insert name="titulo"></ui:insert>
+			<h1>			 
+				 <h:form>
+				 	<ui:insert name="titulo"></ui:insert>
+				 	<h:outputText value="#{sessionScope['usuarioLogado'].email}" />
+ 				 	<h:commandLink value="Sair" action="#{loginBean.logoff}" />
+				 </h:form>
 			</h1>
 		</div>
 		

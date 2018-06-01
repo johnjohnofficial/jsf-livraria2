@@ -24,6 +24,9 @@ public class LoginBean {
 
 		boolean existe = new UsuarioDAO().existe(this.usuario);
 		if (existe) {
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.getExternalContext().getSessionMap()
+				.put("usuarioLogado", this.usuario);						
 			return new RedirectView("livro");
 		}		
 		
@@ -32,5 +35,18 @@ public class LoginBean {
 		context.addMessage(null, new FacesMessage("Usuário ou senha inválido!"));
 		
 		return null;
+	}
+	
+	
+	public String logoff() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		
+		Usuario usuario = (Usuario) context.getExternalContext().getSessionMap().get("usuarioLogado");
+				
+		if (usuario != null) {
+			context.getExternalContext().getSessionMap().clear();
+		}
+		
+		return "login?faces-redirect=true";
 	}
 }
