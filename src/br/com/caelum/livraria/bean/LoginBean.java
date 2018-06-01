@@ -22,30 +22,27 @@ public class LoginBean {
 	public RedirectView efetuaLogin() {
 		System.out.println("Efetuando login " + this.usuario.getEmail());
 
+		FacesContext context = FacesContext.getCurrentInstance();
 		boolean existe = new UsuarioDAO().existe(this.usuario);
+		
 		if (existe) {
-			FacesContext context = FacesContext.getCurrentInstance();
 			context.getExternalContext().getSessionMap()
 				.put("usuarioLogado", this.usuario);						
 			return new RedirectView("livro");
 		}		
 		
-		this.usuario = new Usuario();
-		FacesContext context = FacesContext.getCurrentInstance();
+		// context.getExternalContext().getFlash().setKeepMessages(true);
 		context.addMessage(null, new FacesMessage("Usuário ou senha inválido!"));
+		this.usuario = new Usuario();
 		
 		return null;
 	}
 	
 	
-	public String logoff() {
+	public String logout() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		
-		Usuario usuario = (Usuario) context.getExternalContext().getSessionMap().get("usuarioLogado");
-				
-		if (usuario != null) {
-			context.getExternalContext().getSessionMap().clear();
-		}
+		context.getExternalContext().getSessionMap()
+			.remove("usuarioLogado");			
 		
 		return "login?faces-redirect=true";
 	}
