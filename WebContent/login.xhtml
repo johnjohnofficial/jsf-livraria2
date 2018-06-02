@@ -10,7 +10,7 @@
 <ui:composition template="_template.xhtml">
 
 	<ui:define name="titulo">
-		Login
+		<p:outputPanel>Login</p:outputPanel>		
 	</ui:define>
 
 	<ui:define name="conteudo">		
@@ -18,7 +18,9 @@
 			<p:fieldset legend="Login">
 				<h:panelGrid columns="3">
 					<p:outputLabel value="E-mail" for="email" />
-					<p:inputText id="email" value="#{loginBean.usuario.email}" required="true" requiredMessage="O campo e-mail é obrigatório" />
+					<p:inputText id="email" value="#{loginBean.usuario.email}" required="true" requiredMessage="O campo e-mail é obrigatório">
+						<f:passThroughAttribute name="type" value="email" />
+					</p:inputText>
 					<p:message for="email"/>
 					
 					<p:outputLabel value="Senha" for="senha" />
