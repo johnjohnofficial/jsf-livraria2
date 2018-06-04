@@ -38,7 +38,9 @@ public class LivroBean implements Serializable {
 	}
 
 	public List<Autor> getAutores() {
-		return new DAO<Autor>(Autor.class).listaTodos();
+		List<Autor> autores = new DAO<Autor>(Autor.class).listaTodos();
+		
+		return autores;
 	}
 
 	public void gravar() {
@@ -47,9 +49,7 @@ public class LivroBean implements Serializable {
 		if (livro.getAutores().isEmpty()) {
 //			throw new RuntimeException("Livro deve ter pelo menos um Autor.");
 			FacesContext context = FacesContext.getCurrentInstance();
-			
-			context.addMessage("autor", new FacesMessage("Livro deve ter pelo menos um Autor."));
-			
+			context.addMessage("message", new FacesMessage("Livro deve ter pelo menos um Autor."));
 			return;
 		}
 		

@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 
 import br.com.caelum.livraria.modelo.Autor;
 import br.com.caelum.livraria.modelo.Livro;
+import br.com.caelum.livraria.modelo.Usuario;
 
 public class PopulaBanco {
 
@@ -17,14 +18,17 @@ public class PopulaBanco {
 		EntityManager em = new JPAUtil().getEntityManager();
 
 		em.getTransaction().begin();
+		
+		Usuario admin = geraUsuario("admin@localhost", "admin");
+		em.persist(admin);
 
-		Autor assis = geraAutor("Machado de Assis");
+		Autor assis = geraAutor("Machado de Assis", "machado.assis@livraria.com.br");
 		em.persist(assis);
 
-		Autor amado = geraAutor("Jorge Amado");
+		Autor amado = geraAutor("Jorge Amado", "jorge.amado@livraria.com.br");
 		em.persist(amado);
 
-		Autor coelho = geraAutor("Paulo Coelho");
+		Autor coelho = geraAutor("Paulo Coelho", "paulo.coelho@livraria.com.br");
 		em.persist(coelho);
 
 		Livro casmurro = geraLivro("978-8-52-504464-8", "Dom Casmurro",
@@ -65,9 +69,17 @@ public class PopulaBanco {
 
 	}
 
-	private static Autor geraAutor(String nome) {
+	private static Usuario geraUsuario(String email, String senha) {
+		Usuario usuario = new Usuario();
+		usuario.setEmail(email);
+		usuario.setSenha(senha);
+		return usuario;
+	}
+
+	private static Autor geraAutor(String nome, String email) {
 		Autor autor = new Autor();
 		autor.setNome(nome);
+		autor.setEmail(email);
 		return autor;
 	}
 
