@@ -34,10 +34,18 @@
 		<!-- div#cabecalho -->
 		<div id="cabecalho">
 			<h:graphicImage library="img" name="logo.png" />
+			
+			<p:growl id="messages" showDetail="true" autoUpdate="true" rendered="#{usuarioLogado != null}" sticky="true"/>
+			
 			<h:form rendered="#{usuarioLogado != null}">
-				<p:commandButton value="Sair" action="#{loginBean.logout}" process="@this" update="@this"
-					icon="fa fa-fw fa-power-off" />
+			    <p:menuButton value="Menu">
+			        <p:menuitem value="Livro" action="livro?faces-redirect=true" icon="fa fa-fw fa-edit"/>
+			        <p:menuitem value="Autor" action="autor?faces-redirect=true" icon="fa fa-fw fa-edit"/>
+			        <p:separator />
+			        <p:menuitem value="Sair" action="#{loginBean.logout}" icon="fa fa-fw fa-sign-out"/>
+			    </p:menuButton>
 			</h:form>
+			
 			<h1>			 
 			 	<ui:insert name="titulo"></ui:insert>
 			</h1>
