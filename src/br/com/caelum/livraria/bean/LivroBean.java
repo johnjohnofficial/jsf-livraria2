@@ -1,7 +1,9 @@
 package br.com.caelum.livraria.bean;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -9,10 +11,10 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
-import javax.validation.ValidationException;
 
 import br.com.caelum.livraria.dao.DAO;
 import br.com.caelum.livraria.modelo.Livro;
+import br.com.caelum.livraria.modelo.LivroDataModel;
 import br.com.caelum.livraria.modelo.Autor;
 
 @ManagedBean
@@ -24,6 +26,9 @@ public class LivroBean implements Serializable {
 	private Livro livro = new Livro();
 	private Integer autorId;
 	private Integer livroId;
+	private List<Livro> livros;
+	private LivroDataModel livroDataModel = new LivroDataModel();
+	private List<String> generos = Arrays.asList("Romance", "Drama", "Ação");
 
 	public Livro getLivro() {
 		return livro;
@@ -35,6 +40,22 @@ public class LivroBean implements Serializable {
 
 	public void setLivroId(Integer livroId) {
 		this.livroId = livroId;
+	}
+
+	public LivroDataModel getLivroDataModel() {
+		return livroDataModel;
+	}
+
+	public void setLivroDataModel(LivroDataModel livroDataModel) {
+		this.livroDataModel = livroDataModel;
+	}
+
+	public List<String> getGeneros() {
+		return generos;
+	}
+
+	public void setGeneros(List<String> generos) {
+		this.generos = generos;
 	}
 
 	public List<Autor> getAutores() {
@@ -53,12 +74,15 @@ public class LivroBean implements Serializable {
 			return;
 		}
 		
+		DAO<Livro> dao = new DAO<Livro>(Livro.class);
 		if (this.livro.getId() == null) {
-			new DAO<Livro>(Livro.class).adiciona(this.livro);
+			dao.adiciona(this.livro);
 		} else {
-			new DAO<Livro>(Livro.class).atualiza(this.livro);
+			dao.atualiza(this.livro);
 		}
 
+		// Carregamos a lista de livros novamente.
+		this.livros = dao.listaTodos();
 		this.livro = new Livro();
 	}
 	
@@ -95,7 +119,13 @@ public class LivroBean implements Serializable {
 	}
 	
 	public List<Livro> getLivros() {
-		return new DAO<Livro>(Livro.class).listaTodos();
+		DAO<Livro> dao = new DAO<Livro>(Livro.class);
+		
+		if (this.livros == null) {
+			this.livros = dao.listaTodos();
+		}
+		
+		return this.livros;
 	}
 
 	public Integer getAutorId() {
@@ -107,7 +137,7 @@ public class LivroBean implements Serializable {
 	}
 
 	public void comecaComDigitoUm(FacesContext fc, UIComponent component, Object value) throws ValidatorException {
-		String valor = value.toString();
+//		String valor = value.toString();
 		
 //		if(!valor.startsWith("1")) {
 //			throw new ValidatorException(new FacesMessage("O campo ISBN deveria começar com caracter 1"));
@@ -117,4 +147,36 @@ public class LivroBean implements Serializable {
 	public String formAutor() {
 		return "autor?faces-redirect=true";
 	}
+	
+	public boolean precoEhMenor(Object valorColuna, Object filtroDigitado, Locale locale) { // java.util.Locale
+
+        //tirando espaços do filtro
+        String textoDigitado = (filtroDigitado == null) ? null : filtroDigitado.toString().trim();
+
+        System.out.println("Filtrando pelo " + textoDigitado + ", Valor do elemento: " + valorColuna);
+
+        // o filtro é nulo ou vazio?
+        if (textoDigitado == null || textoDigitado.equals("")) {
+            return true;
+        }
+
+        // elemento da tabela é nulo?
+        if (valorColuna == null) {
+            return false;
+        }
+
+        try {
+            // fazendo o parsing do filtro para converter para Double
+            Double precoDigitado = Double.valueOf(textoDigitado);
+            Double precoColuna = (Double) valorColuna;
+
+            // comparando os valores, compareTo devolve um valor negativo se o value é menor do que o filtro
+            return precoColuna.compareTo(precoDigitado) < 0;
+
+        } catch (NumberFormatException e) {
+
+            // usuario nao digitou um numero
+            return false;
+        }
+}
 }
