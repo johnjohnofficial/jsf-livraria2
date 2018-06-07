@@ -1,14 +1,14 @@
 package br.com.caelum.livraria.bean;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 
-@ManagedBean
+@SuppressWarnings("serial")
+@Named
 @SessionScoped
-public class TemaBean {
+public class TemaBean implements Serializable {
 	
 	private String tema = "home";
 

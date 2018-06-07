@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
@@ -16,7 +16,7 @@ import br.com.caelum.livraria.dao.DAO;
 import br.com.caelum.livraria.modelo.Livro;
 import br.com.caelum.livraria.modelo.Venda;
 
-@ManagedBean
+@Named
 @SessionScoped
 public class VendasBean {
 	
@@ -38,15 +38,15 @@ public class VendasBean {
 	public BarChartModel getVendasModel() {
 		
 		BarChartModel model = new BarChartModel();
-		model.setTitle("Vendas"); // setando o título do gráfico
+		model.setTitle("Vendas"); // setando o tï¿½tulo do grï¿½fico
 		model.setLegendPosition("ne"); // nordeste
-		model.setAnimate(true); // Gráfico animado
+		model.setAnimate(true); // Grï¿½fico animado
 		
-		// pegando o eixo X do gráfico e setando o título do mesmo
+		// pegando o eixo X do grï¿½fico e setando o tï¿½tulo do mesmo
 		Axis xAxis = model.getAxis(AxisType.X);
-		xAxis.setLabel("Título");
+		xAxis.setLabel("Tï¿½tulo");
 		
-		// pegando o eixo Y do gráfico e setando o título do mesmo
+		// pegando o eixo Y do grï¿½fico e setando o tï¿½tulo do mesmo
 		Axis yAxis = model.getAxis(AxisType.Y);
 		yAxis.setLabel("Quantidade");
 		

@@ -1,17 +1,20 @@
 package br.com.caelum.livraria.bean;
 
+import java.io.Serializable;
+
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 
 import br.com.caelum.livraria.dao.UsuarioDAO;
 import br.com.caelum.livraria.modelo.Usuario;
 import br.com.caelum.livraria.util.RedirectView;
 
-@ManagedBean
+@SuppressWarnings("serial")
+@Named
 @ViewScoped
-public class LoginBean {
+public class LoginBean implements Serializable {
 
 	private Usuario usuario = new Usuario();
 	
@@ -32,7 +35,7 @@ public class LoginBean {
 		}		
 		
 		// context.getExternalContext().getFlash().setKeepMessages(true);
-		context.addMessage(null, new FacesMessage("Usuário ou senha inválido!"));
+		context.addMessage(null, new FacesMessage("Usuï¿½rio ou senha invï¿½lido!"));
 		this.usuario = new Usuario();
 		
 		return null;
