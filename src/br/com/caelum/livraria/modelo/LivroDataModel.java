@@ -1,20 +1,30 @@
 package br.com.caelum.livraria.modelo;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
-import br.com.caelum.livraria.dao.DAO;
+import br.com.caelum.livraria.dao.LivroDao;
 
-public class LivroDataModel extends LazyDataModel<Livro> {
+public class LivroDataModel extends LazyDataModel<Livro> implements Serializable {
+	
+	@Inject
+	private LivroDao livroDao;
 	
 	private static final long serialVersionUID = 1L;
-	private DAO<Livro> dao = new DAO<Livro>(Livro.class);
 	
 	public LivroDataModel() {
-		super.setRowCount(dao.quantidadeDeElementos());
+	}
+	
+	@PostConstruct
+	void init() {
+		super.setRowCount(livroDao.quantidadeDeElementos());
 	}
 	
 	@Override
@@ -22,7 +32,7 @@ public class LivroDataModel extends LazyDataModel<Livro> {
 								SortOrder sentidoOrdenacao, Map<String, Object> filtros) {
 	    String titulo = (String) filtros.get("genero");
 	    
-	    return dao.listaTodosPaginada(inicio, quantidade, "genero", titulo);
+	    return livroDao.listaTodosPaginada(inicio, quantidade, "genero", titulo);
 	}
 	
 

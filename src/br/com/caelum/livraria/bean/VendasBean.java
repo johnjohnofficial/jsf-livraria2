@@ -1,10 +1,12 @@
 package br.com.caelum.livraria.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.model.chart.Axis;
@@ -12,17 +14,21 @@ import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
 
-import br.com.caelum.livraria.dao.DAO;
+import br.com.caelum.livraria.dao.LivroDao;
 import br.com.caelum.livraria.modelo.Livro;
 import br.com.caelum.livraria.modelo.Venda;
 
+@SuppressWarnings("serial")
 @Named
 @SessionScoped
-public class VendasBean {
+public class VendasBean implements Serializable {
+	
+	@Inject
+	private LivroDao livroDao;
 	
 	private List<Venda> getVendas(long seed) {
 		
-		List<Livro> livros = new DAO<Livro>(Livro.class).listaTodos();
+		List<Livro> livros = this.livroDao.listaTodos();
 		List<Venda> vendas = new ArrayList<Venda>();
 
 		Random random = new Random(seed);
