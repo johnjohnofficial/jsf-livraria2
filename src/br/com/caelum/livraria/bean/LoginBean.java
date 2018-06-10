@@ -5,9 +5,10 @@ import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
-import br.com.caelum.livraria.dao.UsuarioDAO;
+import br.com.caelum.livraria.dao.UsuarioDao;
 import br.com.caelum.livraria.modelo.Usuario;
 import br.com.caelum.livraria.util.RedirectView;
 
@@ -16,7 +17,17 @@ import br.com.caelum.livraria.util.RedirectView;
 @ViewScoped
 public class LoginBean implements Serializable {
 
-	private Usuario usuario = new Usuario();
+	@Inject
+	private Usuario usuario;
+	
+	@Inject
+	private UsuarioDao dao;
+	
+	@Inject
+	FacesContext context;
+	
+	public LoginBean() {
+	}
 	
 	public Usuario getUsuario() {
 		return usuario;
@@ -25,8 +36,7 @@ public class LoginBean implements Serializable {
 	public RedirectView efetuaLogin() {
 		System.out.println("Efetuando login " + this.usuario.getEmail());
 
-		FacesContext context = FacesContext.getCurrentInstance();
-		boolean existe = new UsuarioDAO().existe(this.usuario);
+		boolean existe = this.dao.existe(this.usuario);
 		
 		if (existe) {
 			context.getExternalContext().getSessionMap()
@@ -35,7 +45,7 @@ public class LoginBean implements Serializable {
 		}		
 		
 		// context.getExternalContext().getFlash().setKeepMessages(true);
-		context.addMessage(null, new FacesMessage("Usu�rio ou senha inv�lido!"));
+		context.addMessage(null, new FacesMessage("Usuário ou senha inválido!"));
 		this.usuario = new Usuario();
 		
 		return null;

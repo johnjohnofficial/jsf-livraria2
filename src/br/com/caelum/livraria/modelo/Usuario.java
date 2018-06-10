@@ -6,13 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+@SuppressWarnings("serial")
 @Entity
 public class Usuario implements Serializable {
 	
-	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@GeneratedValue
+	@Id @GeneratedValue
 	private Integer id;
 	private String email;
 	private String senha;
