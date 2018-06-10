@@ -90,7 +90,7 @@
 
 		<h:form id="formTabelaLivros">
 			<p:dataTable id="tabelaLivros" value="#{livroBean.livroDataModel}" widgetVar="tabelaLivros" var="livro" emptyMessage="Nenhum livro cadastrado."
-				paginator="true" rows="5">
+				paginator="true" rows="5" lazy="true">
 				
 				<f:facet name="header">Livros</f:facet>
 				

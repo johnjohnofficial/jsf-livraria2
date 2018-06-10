@@ -11,6 +11,7 @@ import javax.inject.Named;
 
 import br.com.caelum.livraria.dao.AutorDao;
 import br.com.caelum.livraria.modelo.Autor;
+import br.com.caelum.livraria.tx.Transacional;
 import br.com.caelum.livraria.util.RedirectView;;
 
 @SuppressWarnings("serial")
@@ -29,12 +30,12 @@ public class AutorBean implements Serializable {
 	
 	@PostConstruct
 	void init() {
-		System.out.println("AutorBean est� nascendo ...");
+		System.out.println("AutorBean est� nascendo ...");
 	}
 	
 	@PreDestroy
 	void morte() {
-		System.out.println("AutoBean est� morrendo ...");
+		System.out.println("AutoBean est� morrendo ...");
 	}
 	
 	public Integer getAutorId() {
@@ -55,6 +56,9 @@ public class AutorBean implements Serializable {
 
 //	public void gravar() {
 //	public String gravar() {
+	
+	// inicio da transação
+	@Transacional
 	public RedirectView gravar() {
 		System.out.println("Gravando autor " + autor.getNome());
 		
@@ -69,7 +73,9 @@ public class AutorBean implements Serializable {
 //		return "livro?faces-redirect=true";
 		return new RedirectView("livro");
 	}
+	// fim da transação
 	
+	@Transacional
 	public void remover(Autor autor) {
 		System.out.println("Removendo autor: " + autor.getNome());
 		this.dao.remove(autor);
